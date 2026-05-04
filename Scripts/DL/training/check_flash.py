@@ -5,10 +5,10 @@ from torchvision import transforms
 
 # Chemins directs vers tes dossiers
 FOLDERS = {
-    "Background": r"C:\Users\USER\Desktop\Projet_Drone\data_processed\data_processed\spectrograms\Background activities",
-    "Bebop": r"C:\Users\USER\Desktop\Projet_Drone\Bebop_spectorgrams\Bebop",
-    "AR Drone": r"C:\Users\USER\Desktop\Projet_Drone\data_processed\data_processed\spectrograms\AR Drone",
-    "Phantom": r"C:\Users\USER\Desktop\Projet_Drone\Phantom_spectograms\Phantom"
+    "Bebop": r"C:\Users\USER\Desktop\Projet_Drone\Bebop\Bebop",
+    "Phantom": r"C:\Users\USER\Desktop\Projet_Drone\Phantom\Phantom",
+    "AR Drone": r"C:\Users\USER\Desktop\Projet_Drone\AR_Drone\AR_Drone",
+    "Background": r"C:\Users\USER\Desktop\Projet_Drone\Background\Background"
 }
 
 plt.figure(figsize=(16, 4))

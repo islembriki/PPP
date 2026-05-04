@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 
 DEVICE = torch_directml.device()
 FOLDERS = [
-    r"C:\Users\USER\Desktop\Projet_Drone\Bebop_spectorgrams\Bebop",
-    r"C:\Users\USER\Desktop\Projet_Drone\Phantom_spectograms\Phantom",
-    r"C:\Users\USER\Desktop\Projet_Drone\data_processed\data_processed\spectrograms\AR Drone",
-    r"C:\Users\USER\Desktop\Projet_Drone\data_processed\data_processed\spectrograms\Background activities"
+    r"C:\Users\USER\Desktop\Projet_Drone\Bebop\Bebop",
+    r"C:\Users\USER\Desktop\Projet_Drone\Phantom\Phantom",
+    r"C:\Users\USER\Desktop\Projet_Drone\AR_Drone\AR_Drone",
+    r"C:\Users\USER\Desktop\Projet_Drone\Background\Background"
 ]
 
 def evaluate(snr):

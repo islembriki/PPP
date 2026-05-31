@@ -1,0 +1,96 @@
+{
+  "trained_at": "2026-05-31T08:10:18.421931",
+  "model": "RandomForestClassifier",
+  "n_estimators": 300,
+  "class_weight": "balanced",
+  "test_size": 0.2,
+  "random_state": 42,
+  "accuracy": 82.707,
+  "target_names": [
+    "Background",
+    "Bebop",
+    "AR_Drone",
+    "Phantom"
+  ],
+  "classification_report": {
+    "Background": {
+      "precision": 0.8321253214870236,
+      "recall": 0.8680487804878049,
+      "f1-score": 0.8497075325295452,
+      "support": 16400.0
+    },
+    "Bebop": {
+      "precision": 0.8312810542233744,
+      "recall": 0.8016666666666666,
+      "f1-score": 0.8162053240004242,
+      "support": 33600.0
+    },
+    "AR_Drone": {
+      "precision": 0.8010324931673246,
+      "recall": 0.8141358024691357,
+      "f1-score": 0.8075309964794122,
+      "support": 32400.0
+    },
+    "Phantom": {
+      "precision": 0.9029788252183275,
+      "recall": 0.8985714285714286,
+      "f1-score": 0.9007697356644191,
+      "support": 8400.0
+    },
+    "accuracy": 0.8270704845814978,
+    "macro avg": {
+      "precision": 0.8418544235240125,
+      "recall": 0.8456056695487589,
+      "f1-score": 0.8435533971684502,
+      "support": 90800.0
+    },
+    "weighted avg": {
+      "precision": 0.8272728370566942,
+      "recall": 0.8270704845814978,
+      "f1-score": 0.82698427847371,
+      "support": 90800.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      14236,
+      904,
+      1150,
+      110
+    ],
+    [
+      1317,
+      26936,
+      5048,
+      299
+    ],
+    [
+      1321,
+      4299,
+      26378,
+      402
+    ],
+    [
+      234,
+      264,
+      354,
+      7548
+    ]
+  ],
+  "feature_importances": {
+    "RMS": 0.28946684920727594,
+    "Variance": 0.23569707361787787,
+    "Abs_Mean": 0.10953349914324567,
+    "Kurtosis": 0.0935429690921286,
+    "PAPR": 0.08342658758714028,
+    "Log_PAPR": 0.082801744289973,
+    "Mean": 0.06168222766642229,
+    "Skewness": 0.04384904939593634
+  },
+  "dataset_shape": {
+    "total_samples": 454000,
+    "train_samples": 363200,
+    "test_samples": 90800,
+    "n_features": 8
+  }
+}

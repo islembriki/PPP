@@ -1,7 +1,7 @@
 import torch
 import torch_directml
-from model import DroneCNN, CLASS_NAMES
-from data_manager import DroneRFDataset, get_snr_splits
+from Scripts.DL.Separate_SNR_Models_Training.Codes.model import DroneCNN, CLASS_NAMES
+from Scripts.DL.Separate_SNR_Models_Training.Codes.data_manager import DroneRFDataset, get_snr_splits
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from sklearn.metrics import confusion_matrix, classification_report

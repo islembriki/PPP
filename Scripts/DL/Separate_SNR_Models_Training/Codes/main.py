@@ -1,8 +1,8 @@
 import torch
 from torch.utils.data import DataLoader, WeightedRandomSampler
-from model import DroneCNN
-from data_manager import DroneRFDataset, get_smart_splits
-from trainer import SNRTrainer
+from Scripts.DL.Separate_SNR_Models_Training.Codes.model import DroneCNN
+from Scripts.DL.Separate_SNR_Models_Training.Codes.data_manager import DroneRFDataset, get_smart_splits
+from Scripts.DL.Separate_SNR_Models_Training.Codes.trainer import SNRTrainer
 
 # RECOMMANDATION : Garde le CPU pour la stabilité maximale
 DEVICE = torch.device("cpu")

@@ -1,0 +1,79 @@
+# ════════════════════════════════════════════════════════════════
+# PYCHARM / IDE
+# ════════════════════════════════════════════════════════════════
+/shelf/
+/workspace.xml
+/httpRequests/
+/queries/
+/dataSources/
+/dataSources.local.xml
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ════════════════════════════════════════════════════════════════
+# PYTHON
+# ════════════════════════════════════════════════════════════════
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.venv/
+venv/
+ENV/
+env/
+
+# ════════════════════════════════════════════════════════════════
+# PROJECT: DATA FOLDERS (Too Large)
+# ════════════════════════════════════════════════════════════════
+/spectrograms/
+/data/
+/processed data/
+*.zip
+
+# ════════════════════════════════════════════════════════════════
+# PROJECT: MODEL FILES (Large .pth files ~30-40 MB each)
+# ════════════════════════════════════════════════════════════════
+/models/
+*.pth
+*.pt
+
+# ════════════════════════════════════════════════════════════════
+# PROJECT: RESULTS - Ignore large files, keep summaries
+# ════════════════════════════════════════════════════════════════
+/results/plots/
+/results/logs/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.pdf
+
+# ════════════════════════════════════════════════════════════════
+# PROJECT: Keep these in Git
+# ════════════════════════════════════════════════════════════════
+# /results/summary/     ← Small JSON files (keep)
+# /results/evaluation/  ← Small text reports (keep)
+
+# ════════════════════════════════════════════════════════════════
+# OS
+# ════════════════════════════════════════════════════════════════
+.DS_Store
+Thumbs.db

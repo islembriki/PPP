@@ -1,0 +1,76 @@
+{
+    "model_name": "XGBoost (Type Only - GPU)",
+    "accuracy": 0.7985903083700441,
+    "classification_report": {
+        "Background": {
+            "precision": 0.7994855736971594,
+            "recall": 0.8718292682926829,
+            "f1-score": 0.8340917045852293,
+            "support": 16400.0
+        },
+        "Bebop": {
+            "precision": 0.8043212008918758,
+            "recall": 0.7622619047619048,
+            "f1-score": 0.7827269532264719,
+            "support": 33600.0
+        },
+        "AR_Drone": {
+            "precision": 0.7693724671496991,
+            "recall": 0.7734567901234568,
+            "f1-score": 0.7714092224342793,
+            "support": 32400.0
+        },
+        "Phantom": {
+            "precision": 0.887189742383249,
+            "recall": 0.8978571428571429,
+            "f1-score": 0.8924915685462399,
+            "support": 8400.0
+        },
+        "accuracy": 0.7985903083700441,
+        "macro avg": {
+            "precision": 0.8150922460304958,
+            "recall": 0.8263512765087968,
+            "f1-score": 0.8201798621980552,
+            "support": 90800.0
+        },
+        "weighted avg": {
+            "precision": 0.7986433648708148,
+            "recall": 0.7985903083700441,
+            "f1-score": 0.7981202375139459,
+            "support": 90800.0
+        }
+    },
+    "confusion_matrix": [
+        [
+            14298,
+            779,
+            1217,
+            106
+        ],
+        [
+            1646,
+            25612,
+            5964,
+            378
+        ],
+        [
+            1671,
+            5194,
+            25060,
+            475
+        ],
+        [
+            269,
+            258,
+            331,
+            7542
+        ]
+    ],
+    "target_names": [
+        "Background",
+        "Bebop",
+        "AR_Drone",
+        "Phantom"
+    ],
+    "trained_at": "2026-05-31T23:21:57.318229"
+}

@@ -1,7 +1,7 @@
 import joblib
 
 # 1. Charger le modèle
-svm = joblib.load(r"C:\Users\garba\Desktop\PPP\models\svm_model.pkl")
+svm = joblib.load(r"C:\Users\garba\Desktop\PPP FINAL\PPP\models\svm.pkl")
 
 print("--- INSPECTION DU SVM ---")
 # Voir combien de "points clés" (vecteurs de support) il a retenu par drone

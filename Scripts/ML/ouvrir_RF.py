@@ -2,7 +2,7 @@ import joblib
 import pandas as pd
 
 # Charger le modèle
-model = joblib.load(r"C:\Users\garba\Desktop\PPP\models\random_forest_model.pkl")
+model = joblib.load(r"C:\Users\garba\Desktop\PPP FINAL\PPP\models\random_forest.pkl")
 
 print("--- CONTENU DU RANDOM FOREST ---")
 # Voir l'importance des caractéristiques

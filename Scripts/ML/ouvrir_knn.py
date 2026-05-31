@@ -1,7 +1,7 @@
 import joblib
 
 # 1. Charger le modèle
-knn = joblib.load(r"C:\Users\garba\Desktop\PPP\models\knn_model.pkl")
+knn = joblib.load(r"C:\Users\garba\Desktop\PPP FINAL\PPP\models\knn.pkl")
 
 print("--- INSPECTION DU KNN ---")
 # Voir combien de voisins il regarde pour décider

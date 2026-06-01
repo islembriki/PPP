@@ -10,7 +10,7 @@ def generate_leakage_diagram():
         ax.set_ylim(0, 5)
         ax.axis('off')
 
-    # --- CAS A : SPLIT ALÉATOIRE (MAUVAIS) ---
+    # --- CAS A : SPLIT ALÉATOIRE  ---
     ax1.text(5, 4.5, "SPLIT ALÉATOIRE (Data Leakage)", fontsize=14, fontweight='bold', ha='center', color='red')
     # Dessin des segments mélangés
     for i in range(8):
@@ -18,7 +18,7 @@ def generate_leakage_diagram():
         ax1.add_patch(patches.Rectangle((1+i, 2), 0.8, 1, color=color, alpha=0.6))
     ax1.text(5, 1.5, "Les segments d'un même fichier sont\ndispersés entre Train (Bleu) et Test (Rouge).\nLe modèle mémorise le bruit de fond.", ha='center', fontsize=11)
 
-    # --- CAS B : SPLIT PAR ID (BON - TON APPROCHE) ---
+    # --- CAS B : SPLIT PAR ID  ---
     ax2.text(5, 4.5, "SPLIT PAR RECORDING ID (Généralisation)", fontsize=14, fontweight='bold', ha='center', color='green')
     # Dessin des blocs groupés
     ax2.add_patch(patches.Rectangle((1, 2), 3.5, 1, color='blue', alpha=0.6, label='Train'))

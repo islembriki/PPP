@@ -36,6 +36,6 @@ class SNRTrainer:
                     correct += (predicted == labels).sum().item()
             
             acc = 100 * correct / total
-            print(f"📢 SNR {snr_label}dB | EPOQUE {epoch+1} | Acc: {acc:.2f}% | Prédic: {dict(Counter(all_preds))}")
+            print(f"SNR {snr_label}dB | EPOQUE {epoch+1} | Acc: {acc:.2f}% | Prédic: {dict(Counter(all_preds))}")
             torch.save(model.state_dict(), f"expert_{snr_label}dB_13classes.pth")
         return model

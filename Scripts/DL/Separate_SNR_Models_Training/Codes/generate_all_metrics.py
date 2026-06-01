@@ -32,13 +32,13 @@ CLASS_NAMES = ["Background", "Bebop M1", "Bebop M2", "Bebop M3", "Bebop M4",
 def generate_global_report():
     summary_results = []
     
-    print("🚀 Démarrage du calcul des métriques pour tous les experts...")
+    print("Démarrage du calcul des métriques pour tous les experts...")
 
     for info in experts_info:
         snr = info["snr"]
         model_path = os.path.join(EXPERTS_DIR, info["file"])
         
-        print(f"\n🔄 Analyse Expert {snr}dB...")
+        print(f"\nAnalyse Expert {snr}dB...")
         
         # Préparation des données spécifiques au SNR
         full_ds = DroneRFDataset(FOLDERS, target_snr=snr)

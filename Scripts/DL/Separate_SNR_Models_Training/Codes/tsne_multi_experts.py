@@ -121,7 +121,7 @@ def run_multi_tsne():
     
     # Sauvegarde haute qualité
     plt.savefig("tsne_drone_final_fixed.png", dpi=300, facecolor=fig.get_facecolor())
-    print("✅ Infographie t-SNE générée avec succès : 'tsne_drone_final_fixed.png'")
+    print("Infographie t-SNE générée avec succès : 'tsne_drone_final_fixed.png'")
     plt.show()
 
 if __name__ == "__main__":

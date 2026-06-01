@@ -3,7 +3,7 @@ import os
 from PIL import Image
 from torchvision import transforms
 
-# Chemins directs vers tes dossiers
+# Chemins directs vers les dossiers
 FOLDERS = {
     "Bebop": r"C:\Users\USER\Desktop\Projet_Drone\Bebop\Bebop",
     "Phantom": r"C:\Users\USER\Desktop\Projet_Drone\Phantom\Phantom",
@@ -26,12 +26,12 @@ for i, (name, path) in enumerate(FOLDERS.items()):
                 plt.imshow(img)
                 plt.title(f"TYPE: {name}\n{f[:20]}...", fontsize=10)
                 plt.axis('off')
-                print(f"✅ OK pour {name}")
+                print(f"OK pour {name}")
                 found = True
                 break # ON S'ARRÊTE ICI ! Très important pour ne pas ramer.
     
     if not found:
-        print(f"❌ Dossier introuvable ou vide : {path}")
+        print(f"Dossier introuvable ou vide : {path}")
 
 plt.tight_layout()
 plt.show()

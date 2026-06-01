@@ -19,7 +19,7 @@ class DroneRFDataset(Dataset):
             "11000": 9, "11001": 10, "11010": 11, "11011": 12
         }
 
-        print(f"🔍 Scan des dossiers pour {target_snr}dB...")
+        print(f"Scan des dossiers pour {target_snr}dB...")
         for folder_path in folders_list:
             if not os.path.exists(folder_path): continue
             for f in os.listdir(folder_path):

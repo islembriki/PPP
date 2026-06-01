@@ -4,7 +4,6 @@ from PIL import Image
 from tqdm import tqdm
 
 # Nettoie SEULEMENT les dossiers de drones. 
-# On laisse le Background tranquille pour qu'il serve de référence "vide".
 FOLDERS = [
     r"C:\Users\USER\Desktop\Projet_Drone\Bebop\Bebop",
     r"C:\Users\USER\Desktop\Projet_Drone\Phantom\Phantom",
@@ -12,9 +11,9 @@ FOLDERS = [
 ]
 
 # SEUIL DE NETTOYAGE : Si la moyenne des pixels est trop basse, c'est du noir.
-THRESHOLD = 15 # Tu peux ajuster ce chiffre (entre 10 et 25)
+THRESHOLD = 15 
 
-print("🧹 Démarrage du nettoyage des segments vides...")
+print("Démarrage du nettoyage des segments vides...")
 
 for folder in FOLDERS:
     if not os.path.exists(folder): continue
@@ -31,6 +30,6 @@ for folder in FOLDERS:
             os.remove(path)
             removed += 1
             
-    print(f"✅ {os.path.basename(folder)} : {removed} images vides supprimées.")
+    print(f"{os.path.basename(folder)} : {removed} images vides supprimées.")
 
-print("\n✨ Nettoyage terminé ! Ton dataset ne contient maintenant que du VRAI signal.")
+print("\nNettoyage terminé ! Ton dataset ne contient maintenant que du VRAI signal.")

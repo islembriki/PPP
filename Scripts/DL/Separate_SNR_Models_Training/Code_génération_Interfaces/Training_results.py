@@ -18,7 +18,6 @@ fig.suptitle("DASHBOARD DE PERFORMANCE RÉEL : MODÈLES EXPERTS SNR\nClassificat
              fontsize=22, fontweight='bold', color="#022b55", y=0.98)
 
 # --- GRAPHIQUE 1 : Bar Chart ---
-# Les couleurs restent identiques pour la cohérence visuelle
 colors = ['#1a936f', '#88d498', '#f3a712', '#db2b39'] 
 bars = ax1.bar(snr_levels, accuracy, color=colors, edgecolor='white', linewidth=1.5, width=0.6)
 
@@ -50,5 +49,5 @@ plt.subplots_adjust(top=0.75, bottom=0.15, left=0.1, right=0.9, wspace=0.3)
 
 # Sauvegarde haute qualité
 plt.savefig("dashboard_officiel_valeurs_csv.png", dpi=300, bbox_inches='tight')
-print("✅ Dashboard officiel avec valeurs CSV généré avec succès !")
+print("Dashboard officiel avec valeurs CSV généré avec succès !")
 plt.show()

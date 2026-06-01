@@ -19,7 +19,7 @@ def main():
     trainer = SNRTrainer(DEVICE)
     
     for snr in [-10]:
-        print(f"\n🚀 --- ENTRAINEMENT EXPERT {snr}dB (13 CLASSES) ---")
+        print(f"\n--- ENTRAINEMENT EXPERT {snr}dB (13 CLASSES) ---")
         full_ds = DroneRFDataset(FOLDERS, target_snr=snr)
         
         if len(full_ds) == 0: continue

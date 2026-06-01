@@ -39,10 +39,10 @@ def generate_all_heatmaps():
         model_file = f"expert_{snr}dB_13classes.pth"
         model_path = os.path.join(EXPERTS_DIR, model_file)
         
-        print(f"\n🔄 TRAITEMENT EXPERT {snr}dB...")
+        print(f"\nTRAITEMENT EXPERT {snr}dB...")
         
         if not os.path.exists(model_path):
-            print(f"❌ Erreur : {model_file} introuvable dans le dossier Experts.")
+            print(f"Erreur : {model_file} introuvable dans le dossier Experts.")
             continue
 
         # --- Préparation des données spécifiques au SNR ---
@@ -57,7 +57,7 @@ def generate_all_heatmaps():
 
         all_preds, all_labels = [], []
 
-        print(f"🔍 Calcul des prédictions pour {snr}dB...")
+        print(f"Calcul des prédictions pour {snr}dB...")
         with torch.no_grad():
             for images, labels in val_loader:
                 outputs = model(images.to(DEVICE))
@@ -84,7 +84,7 @@ def generate_all_heatmaps():
         # Sauvegarde avec nom dynamique
         output_name = f"confusion_matrix_{snr}dB.png"
         plt.savefig(output_name, dpi=300)
-        print(f"✅ Image enregistrée : {output_name}")
+        print(f"Image enregistrée : {output_name}")
         
         # Rapport de texte (Correction du crash)
         present_labels = np.unique(np.concatenate([all_labels, all_preds]))
@@ -93,7 +93,7 @@ def generate_all_heatmaps():
         
         plt.close() # On ferme pour ne pas saturer la RAM
 
-    print("\n✨ Terminé ! Toutes les matrices ont été générées.")
+    print("\nTerminé ! Toutes les matrices ont été générées.")
 
 if __name__ == "__main__":
     generate_all_heatmaps()

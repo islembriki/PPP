@@ -41,7 +41,7 @@ PATHS = {
     "belkis_results":  os.path.join(BASE, "results", "cnn_results.json"),
     "belkis_dist":     os.path.join(BASE, "results", "figure_distribution_white.png"),
     "belkis_weights":  os.path.join(BASE, "results", "figure_snr_weights_white.png"),
-    "belkis_learning": os.path.join(BASE, "results", "learning_curves_final.png"), # Vérifie le dossier exact
+    "belkis_learning": os.path.join(BASE, "results", "learning_curves_final.png"), 
     "belkis_cm":       os.path.join(BASE, "results", "MATRICE_FINALE_85PC.png"),
     "belkis_tsne":     os.path.join(BASE, "results", "tsne_CLEAN_WHITE.png"),
 }
@@ -348,7 +348,7 @@ def build_tab_b(parent):
     ])
 
     tk.Label(inner,
-             text="⚠  Cause racine de la dégradation — La baisse n'est pas un échec algorithmique.\n"
+             text="Cause racine de la dégradation — La baisse n'est pas un échec algorithmique.\n"
                   "Les variations de mode de vol au sein d'un même drone produisent des différences\n"
                   "micro-spectrales perdues lors de la compression en descripteurs scalaires.\n"
                   "Capturer ces différences nécessite des représentations temps-fréquence (spectrogrammes).",
@@ -612,7 +612,7 @@ def build_tab_dl(parent):
     inner_sep, _, scroll_fn = scrollable_frame(sub_tab_separate)
 
     # ==========================================================
-    # ÉTAPE 1 : ÉTAT INITIAL (t-SNE AVANT) ameni
+    # ÉTAPE 1 : ÉTAT INITIAL (t-SNE AVANT) 
     # ==========================================================
     section_label(inner_sep, "1. État Initial : Complexité des Données Brutes", "#022b55")
     tsne_image_block(inner_sep, "tsne_dl_avant", 
@@ -698,7 +698,7 @@ def build_tab_dl(parent):
     # Footer pour finir proprement
     tk.Label(inner_sep, text="", bg="#f5f5f5").pack(pady=20)
 
-    # --- PARTIE BELKIS (APPROCHE GÉNÉRALISTE) ---
+    # --- APPROCHE GÉNÉRALISTE ---
     inner_merg, _, scroll_fn_merg = scrollable_frame(sub_tab_merged)
 
     # ==========================================================

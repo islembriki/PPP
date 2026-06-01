@@ -23,7 +23,7 @@ MODEL_PATH = os.path.join(EXPERTS_DIR, MODEL_FILE)
 
 DEVICE = torch.device("cpu") # CPU pour la stabilité de l'affichage
 
-# Chemins vers tes données spectrogrammes
+# Chemins vers les données spectrogrammes
 FOLDERS = [
     r"C:\Users\USER\Desktop\Projet_Drone\Background\Background",
     r"C:\Users\USER\Desktop\Projet_Drone\Bebop\Bebop",
@@ -40,10 +40,10 @@ CLASS_NAMES = [
 ]
 
 def generate_heatmap():
-    print(f"📍 Recherche du modèle dans : {MODEL_PATH}")
+    print(f"Recherche du modèle dans : {MODEL_PATH}")
     
     if not os.path.exists(MODEL_PATH):
-        print(f"❌ ERREUR : Le fichier {MODEL_FILE} est introuvable dans le dossier Experts.")
+        print(f"ERREUR : Le fichier {MODEL_FILE} est introuvable dans le dossier Experts.")
         return
 
     # --- Préparation des données ---
@@ -61,7 +61,7 @@ def generate_heatmap():
     all_preds = []
     all_labels = []
 
-    print("🔍 Calcul des prédictions...")
+    print("Calcul des prédictions...")
     with torch.no_grad():
         for images, labels in val_loader:
             images = images.to(DEVICE)
@@ -89,7 +89,7 @@ def generate_heatmap():
     # Sauvegarde de l'image
     output_image = "confusion_matrix_30dB.png"
     plt.savefig(output_image, dpi=300)
-    print(f"\n✅ Succès ! Image enregistrée sous : {output_image}")
+    print(f"\nSuccès ! Image enregistrée sous : {output_image}")
     
     # Affichage du rapport textuel pour vérification
     print("\n--- RAPPORT DE CLASSIFICATION ---")

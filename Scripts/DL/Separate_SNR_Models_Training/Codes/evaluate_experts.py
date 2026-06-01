@@ -17,7 +17,7 @@ FOLDERS = [
 ]
 
 def evaluate(snr):
-    print(f"\n🔍 Analyse de l'expert {snr}dB...")
+    print(f"\nAnalyse de l'expert {snr}dB...")
     transform = transforms.Compose([
         transforms.Resize((64, 64)),
         transforms.ToTensor(),

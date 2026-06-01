@@ -17,7 +17,7 @@ def generate_cleaning_diagram():
     plt.text(1.75, 3.7, "90% Segments Vides\n10% Segments Actifs", fontsize=10, ha='center', color='#e74c3c')
     
     # Symbole : Confusion
-    plt.text(1.75, 2.5, "❌ CONFUSION\nImages Noires Identiques\npour des Labels Différents", 
+    plt.text(1.75, 2.5, "CONFUSION\nImages Noires Identiques\npour des Labels Différents", 
              fontsize=10, ha='center', bbox=dict(facecolor='red', alpha=0.1))
 
     # --- FLÈCHE 1 ---
@@ -36,12 +36,12 @@ def generate_cleaning_diagram():
     plt.text(8.6, 3.7, "100% Information Utile\nSignatures RF Claires", fontsize=10, ha='center', color='#27ae60')
 
     # Symbole : Succès
-    plt.text(8.6, 2.5, "✅ APPRENTISSAGE\nDifférenciation nette\ndes Signatures Radio", 
+    plt.text(8.6, 2.5, "APPRENTISSAGE\nDifférenciation nette\ndes Signatures Radio", 
              fontsize=10, ha='center', bbox=dict(facecolor='green', alpha=0.1))
 
     # --- RÉSULTATS CHIFFRÉS ---
     results_box = (
-        "📈 IMPACT SUR L'ACCURACY :\n"
+        "IMPACT SUR L'ACCURACY :\n"
         "• AVANT : 7% (Modèle aveugle)\n"
         "• APRÈS : 98% (Type) / 80% (BUI)"
     )

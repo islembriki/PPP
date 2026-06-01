@@ -30,7 +30,7 @@ PATHS = {
 
 
     "dl_results":    os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Metrics_Reports", "results_DL_experts.json"),
-    "tsne_dl_avant": os.path.join(BASE, "Scripts", "DL", "Architecture_CNN", "tsne_avant_entrainement.png"),
+    "tsne_dl_avant": os.path.join(BASE, "Scripts", "DL", "Architecture_CNN", "t_sne_avant_entrainement.png"),
     "dl_dashboard":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "dashboard_officiel_valeurs_csv.png"),
     "dl_confusion1":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "confusion_matrix_30dB.png"),
     "dl_confusion2":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "confusion_matrix_10dB.png"),

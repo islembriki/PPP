@@ -34,6 +34,13 @@ PATHS = {
     "dl_dashboard":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "dashboard_officiel_valeurs_csv.png"),
     "dl_confusion":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "confusion_matrix_30dB.png"),
     "dl_tsne_post":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "tsne_drone_final_fixed.png"),
+
+    "belkis_results":  os.path.join(BASE, "results", "cnn_results.json"),
+    "belkis_dist":     os.path.join(BASE, "results", "figure_distribution_white.png"),
+    "belkis_weights":  os.path.join(BASE, "results", "figure_snr_weights_white.png"),
+    "belkis_learning": os.path.join(BASE, "learning_curves_final.png"), # Vérifie le dossier exact
+    "belkis_cm":       os.path.join(BASE, "results", "MATRICE_FINALE_85PC.png"),
+    "belkis_tsne":     os.path.join(BASE, "results", "tsne_CLEAN_WHITE.png"),
 }
 
 
@@ -59,6 +66,7 @@ rf_mode  = load_json("rf_mode")
 knn_mode = load_json("knn_mode")
 xgb_mode = load_json("xgb_mode")
 dl_data = load_json("dl_results")
+belkis_data = load_json("belkis_results")
 
 
 # ============================================
@@ -594,8 +602,8 @@ def build_tab_dl(parent):
     sub_tab_separate = tk.Frame(inner_notebook, bg="#f5f5f5")
     sub_tab_merged   = tk.Frame(inner_notebook, bg="#f5f5f5")
 
-    inner_notebook.add(sub_tab_separate, text="  1. Separate SNR (Amani)  ")
-    inner_notebook.add(sub_tab_merged,   text="  2. Merged SNR (Belkis)   ")
+    inner_notebook.add(sub_tab_separate, text="  1. Separate SNR ")
+    inner_notebook.add(sub_tab_merged,   text="  2. Merged SNR ")
 
     # --- CONSTRUCTION DE LA PARTIE AMANI (ORDRE LOGIQUE) ---
     inner_sep, _, scroll_fn = scrollable_frame(sub_tab_separate)
@@ -668,9 +676,75 @@ def build_tab_dl(parent):
     # Footer pour finir proprement
     tk.Label(inner_sep, text="", bg="#f5f5f5").pack(pady=20)
 
-    # --- PARTIE BELKIS (PLACEHOLDER) ---
-    inner_merg, _, _ = scrollable_frame(sub_tab_merged)
-    tk.Label(inner_merg, text="Travail en cours...", font=("Arial", 14), bg="#f5f5f5").pack(pady=50)
+    # --- PARTIE BELKIS (APPROCHE GÉNÉRALISTE) ---
+    inner_merg, _, scroll_fn_merg = scrollable_frame(sub_tab_merged)
+
+    # ==========================================================
+    # ÉTAPE 1 : STRATÉGIE "ONE BRAIN"
+    # ==========================================================
+    section_label(inner_merg, "1. Concept : Modèle Unique Multi-SNR (Généraliste)", "#3f51b5")
+
+    info_box = tk.Frame(inner_merg, bg="#e8eaf6", padx=20, pady=15)
+    info_box.pack(fill=tk.X, padx=30, pady=10)
+
+    concept_text = (
+        "🎯 STRATÉGIE SCIENTIFIQUE :\n\n"
+        "Contrairement à l'approche multi-modèles, nous avons entraîné un cerveau unique sur l'ensemble\n"
+        "du spectre de bruit (-10dB à +30dB). Le modèle utilise les signaux clairs comme guide structurel\n"
+        "pour identifier les drones quasi-invisibles dans le bruit extrême."
+    )
+    tk.Label(info_box, text=concept_text, font=("Segoe UI", 10, "italic"), bg="#e8eaf6", fg="#1a237e", justify="left").pack(anchor="w")
+
+    # ==========================================================
+    # ÉTAPE 2 : OPTIMISATION DES DONNÉES (SAD & WEIGHTING)
+    # ==========================================================
+    divider(inner_merg)
+    section_label(inner_merg, "2. Prétraitement et Pondération SNR-Aware", "#3f51b5")
+
+    # Bloc pour la Figure 5 (Distribution)
+    tsne_image_block(inner_merg, "belkis_dist",
+                     "Figure : Rééquilibrage par WeightedRandomSampler pour compenser le nettoyage SAD.", scroll_fn_merg)
+
+    # Bloc pour la Figure 6 (Poids SNR)
+    tsne_image_block(inner_merg, "belkis_weights",
+                     "Figure : SNR-Aware Weighting. Les signaux à -10dB reçoivent une priorité 4x supérieure.", scroll_fn_merg)
+
+    # ==========================================================
+    # ÉTAPE 3 : PERFORMANCE GLOBALE
+    # ==========================================================
+    divider(inner_merg)
+    section_label(inner_merg, "3. Résultats : Convergence et Précision Globale", "#3f51b5")
+
+    acc_global = belkis_data.get("accuracy", 85.18)
+    f1_global = belkis_data.get("f1_score", 0.85)
+
+    stat_cards(inner_merg, [
+        ("Accuracy Merged", f"{acc_global}%", "#3f51b5"),
+        ("Score F1", f"{f1_global:.3f}", "#5c6bc0"),
+        ("Échantillons", "2.27 Millions", "#7986cb"),
+        ("Architecture", "CNN + Dropout", "#9fa8da"),
+    ])
+
+    tsne_image_block(inner_merg, "belkis_learning",
+                     "Analyse de convergence : Stabilité du modèle grâce au Dropout (0.5) et Learning Rate Scheduler.", scroll_fn_merg)
+
+    # ==========================================================
+    # ÉTAPE 4 : VALIDATION FINALE (MATRICE & T-SNE)
+    # ==========================================================
+    divider(inner_merg)
+    section_label(inner_merg, "4. Analyse Fine et Espace Latent", "#3f51b5")
+
+    tsne_image_block(inner_merg, "belkis_cm",
+                     "Matrice de Confusion : Identification robuste malgré le mélange des niveaux de bruit.", scroll_fn_merg)
+
+    divider(inner_merg)
+    section_label(inner_merg, "5. Cartographie de l'Intelligence (t-SNE)", "#3f51b5")
+
+    tsne_image_block(inner_merg, "belkis_tsne",
+                     "Projection t-SNE : Séparation sémantique parfaite des familles de drones en conditions réelles.", scroll_fn_merg)
+
+    # Footer
+    tk.Label(inner_merg, text="Fin du Rapport Merged SNR", font=("Arial", 9, "italic"), bg="#f5f5f5", fg="#999").pack(pady=20)
 
 
 

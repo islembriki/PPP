@@ -96,18 +96,6 @@ Au lieu d'un modèle unique, nous entraînons des experts spécialisés pour cha
 
 ---
 
-## 💡 Pour Votre Professeur
-
-**À présenter :**
-1. Ouvrir le tableau de bord
-2. Naviguer vers l'onglet 5 (Comparaison ML vs DL)
-3. Montrer les matrices de confusion et courbes
-
-**Message clé :**
-> *« Bien que les modèles ML classifient efficacement les types de drones, le deep learning sur spectrogrammes atteint une précision supérieure et une robustesse remarquable au bruit, avec un gain de +17.5 points de pourcentage sur 10 classes. »*
-
----
-
 ## 📝 Détails Techniques
 
 - **ML :** Random Forest, KNN, XGBoost avec 8-12 descripteurs spectraux
@@ -116,9 +104,3 @@ Au lieu d'un modèle unique, nous entraînons des experts spécialisés pour cha
 - **Robustesse :** Pondération SNR-aware, dropout (0.5), learning rate scheduler
 
 ---
-
-## ✅ Statut
-
-Projet complet et prêt pour évaluation.
-
-**Créateur :** Islem Briki | **Dataset :** DroneRF | **Dernière mise à jour :** Juin 2026

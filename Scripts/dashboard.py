@@ -27,7 +27,19 @@ PATHS = {
     "tsne_rf_mode":    os.path.join(BASE, "tsne", "tsne_post_rf_type_mode.png"),
     "tsne_knn_mode":   os.path.join(BASE, "tsne", "tsne_post_train_knn_type_mode.png"),
     "tsne_xgb_mode":   os.path.join(BASE, "tsne", "tsne_xgboost_post_type_mode.png"),
+
+
+    "dl_results":    os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Metrics_Reports", "results_DL_experts.json"),
+    "tsne_dl_avant": os.path.join(BASE, "Scripts", "DL", "final_version", "tsne_avant_entrainement.png"),
+    "dl_dashboard":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "dashboard_officiel_valeurs_csv.png"),
+    "dl_confusion":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "confusion_matrix_30dB.png"),
+    "dl_tsne_post":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "tsne_drone_final_fixed.png"),
 }
+
+
+
+
+
 
 # ============================================
 # LOAD JSONs
@@ -46,6 +58,8 @@ xgb_type = load_json("xgb_type")
 rf_mode  = load_json("rf_mode")
 knn_mode = load_json("knn_mode")
 xgb_mode = load_json("xgb_mode")
+dl_data = load_json("dl_results")
+
 
 # ============================================
 # HELPERS
@@ -565,21 +579,110 @@ def build_tab_comparison(parent):
              ).pack(fill=tk.X, padx=20, pady=10)
 
     tk.Label(inner, text="", bg="#f5f5f5").pack(pady=20)
+
+
+
+
 # ============================================
-# TAB 4 — Apprentissage Profond (placeholder)
+# TAB 4 — Apprentissage Profond (placeholder) 
 # ============================================
 def build_tab_dl(parent):
-    inner, _, _ = scrollable_frame(parent)
-    tk.Label(inner, text="Résultats — Apprentissage Profond (CNN)",
-             font=("Arial", 16, "bold"), bg="#f5f5f5", fg="#d35400"
-             ).pack(pady=30)
-    tk.Label(inner,
-             text="Cet onglet affichera les résultats CNN, la courbe de résilience SNR,\n"
-                  "les matrices de confusion et le t-SNE post-entraînement\n"
-                  "dès que l'équipe DL fournira ses fichiers de sortie.",
-             font=("Arial", 11), bg="#fff3cd", fg="#856404",
-             padx=20, pady=20, justify="center"
-             ).pack(padx=40)
+    # Création du Notebook interne
+    inner_notebook = ttk.Notebook(parent)
+    inner_notebook.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+    sub_tab_separate = tk.Frame(inner_notebook, bg="#f5f5f5")
+    sub_tab_merged   = tk.Frame(inner_notebook, bg="#f5f5f5")
+
+    inner_notebook.add(sub_tab_separate, text="  1. Separate SNR (Amani)  ")
+    inner_notebook.add(sub_tab_merged,   text="  2. Merged SNR (Belkis)   ")
+
+    # --- CONSTRUCTION DE LA PARTIE AMANI (ORDRE LOGIQUE) ---
+    inner_sep, _, scroll_fn = scrollable_frame(sub_tab_separate)
+
+    # ==========================================================
+    # ÉTAPE 1 : ÉTAT INITIAL (t-SNE AVANT)
+    # ==========================================================
+    section_label(inner_sep, "1. État Initial : Complexité des Données Brutes", "#022b55")
+    tsne_image_block(inner_sep, "tsne_dl_avant", 
+                     "Visualisation t-SNE pré-entraînement : Les signatures sont entrelacées et indiscriminables.", scroll_fn)
+
+    # ==========================================================
+    # ÉTAPE 2 : STRATÉGIE DE NETTOYAGE (DESIGN UI PRO)
+    # ==========================================================
+    divider(inner_sep)
+    section_label(inner_sep, "2. Optimisation : Signal Activity Detection (SAD)", "#022b55")
+    
+    # Remplacement de l'image par un bloc de texte stylisé "Tech"
+    clean_box = tk.Frame(inner_sep, bg="#ffffff", highlightbackground="#022b55", highlightthickness=1, padx=20, pady=15)
+    clean_box.pack(fill=tk.X, padx=30, pady=10)
+    
+    sad_text = (
+        "⚙️ MÉTHODOLOGIE DE PURIFICATION (GATING) :\n\n"
+        "• Analyse des Bursts : Isolation des salves actives du drone par rapport au bruit thermique.\n"
+        "• Seuil d'Activité : Application d'un filtre morphologique (Luminance Moyenne μ > 15).\n"
+        "• Impact : Suppression de 90% des trames vides, éliminant le biais de confusion (Label Noise)."
+    )
+    lbl_sad = tk.Label(clean_box, text=sad_text, font=("Segoe UI", 10), bg="#ffffff", fg="#2c3e50", justify="left")
+    lbl_sad.pack(anchor="w")
+    lbl_sad.bind("<MouseWheel>", scroll_fn)
+
+    # ==========================================================
+    # ÉTAPE 3 : RÉSULTATS D'APPRENTISSAGE (ACCURACY)
+    # ==========================================================
+    divider(inner_sep)
+    section_label(inner_sep, "3. Performances des Modèles Experts SNR", "#022b55")
+    
+    summary = dl_data.get("global_summary", [])
+    acc_30 = next((item["Accuracy (%)"] for item in summary if item["SNR (dB)"] == 30), 0)
+    acc_10 = next((item["Accuracy (%)"] for item in summary if item["SNR (dB)"] == 10), 0)
+    acc_0  = next((item["Accuracy (%)"] for item in summary if item["SNR (dB)"] == 0), 0)
+    acc_m10 = next((item["Accuracy (%)"] for item in summary if item["SNR (dB)"] == -10), 0)
+
+    stat_cards(inner_sep, [
+        ("Expert 30dB", f"{acc_30:.2f}%", "#1a936f"),
+        ("Expert 10dB (Best)", f"{acc_10:.2f}%", "#18C15E"), # Vert plus vif car meilleur score
+        ("Expert 0dB", f"{acc_0:.2f}%", "#f3a712"),
+        ("Expert -10dB", f"{acc_m10:.2f}%", "#db2b39"),
+    ])
+
+    tsne_image_block(inner_sep, "dl_dashboard", 
+                     "Dashboard de performance : Synthèse de la précision et courbe de résilience au bruit.", scroll_fn)
+
+    # ==========================================================
+    # ÉTAPE 4 : ANALYSE DES ERREURS (MATRICE DE CONFUSION)
+    # ==========================================================
+    divider(inner_sep)
+    section_label(inner_sep, "4. Analyse Fine : Matrice de Confusion (Expert 30dB)", "#022b55")
+    tsne_image_block(inner_sep, "dl_confusion", 
+                     "Validation : Identification parfaite des types (98%) et défis sur les modes intra-marques.", scroll_fn)
+
+    # ==========================================================
+    # ÉTAPE 5 : VALIDATION FINALE (t-SNE POST-TRAINING)
+    # ==========================================================
+    divider(inner_sep)
+    section_label(inner_sep, "5. Validation de l'Apprentissage : Espace Latent", "#022b55")
+    tsne_image_block(inner_sep, "dl_tsne_post", 
+                     "Post-Training : Séparation sémantique nette des signatures de drones après optimisation.", scroll_fn)
+
+    # Footer pour finir proprement
+    tk.Label(inner_sep, text="", bg="#f5f5f5").pack(pady=20)
+
+    # --- PARTIE BELKIS (PLACEHOLDER) ---
+    inner_merg, _, _ = scrollable_frame(sub_tab_merged)
+    tk.Label(inner_merg, text="Travail en cours...", font=("Arial", 14), bg="#f5f5f5").pack(pady=50)
+
+
+
+
+
+
+
+
+
+
+
+
 
 # ============================================
 # TAB 5 — ML vs DL (placeholder)

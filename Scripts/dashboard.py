@@ -30,15 +30,18 @@ PATHS = {
 
 
     "dl_results":    os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Metrics_Reports", "results_DL_experts.json"),
-    "tsne_dl_avant": os.path.join(BASE, "Scripts", "DL", "final_version", "tsne_avant_entrainement.png"),
+    "tsne_dl_avant": os.path.join(BASE, "Scripts", "DL", "Architecture_CNN", "tsne_avant_entrainement.png"),
     "dl_dashboard":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "dashboard_officiel_valeurs_csv.png"),
-    "dl_confusion":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "confusion_matrix_30dB.png"),
+    "dl_confusion1":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "confusion_matrix_30dB.png"),
+    "dl_confusion2":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "confusion_matrix_10dB.png"),
+    "dl_confusion3":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "confusion_matrix_0dB.png"),
+    "dl_confusion4":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "confusion_matrix_-10dB.png"),
     "dl_tsne_post":  os.path.join(BASE, "Scripts", "DL", "Separate_SNR_Models_Training", "Interfaces_graphiques", "tsne_drone_final_fixed.png"),
 
     "belkis_results":  os.path.join(BASE, "results", "cnn_results.json"),
     "belkis_dist":     os.path.join(BASE, "results", "figure_distribution_white.png"),
     "belkis_weights":  os.path.join(BASE, "results", "figure_snr_weights_white.png"),
-    "belkis_learning": os.path.join(BASE, "learning_curves_final.png"), # Vérifie le dossier exact
+    "belkis_learning": os.path.join(BASE, "results", "learning_curves_final.png"), # Vérifie le dossier exact
     "belkis_cm":       os.path.join(BASE, "results", "MATRICE_FINALE_85PC.png"),
     "belkis_tsne":     os.path.join(BASE, "results", "tsne_CLEAN_WHITE.png"),
 }
@@ -592,7 +595,7 @@ def build_tab_comparison(parent):
 
 
 # ============================================
-# TAB 4 — Apprentissage Profond (placeholder) 
+# TAB 4 — DL (placeholder) 
 # ============================================
 def build_tab_dl(parent):
     # Création du Notebook interne
@@ -605,11 +608,11 @@ def build_tab_dl(parent):
     inner_notebook.add(sub_tab_separate, text="  1. Separate SNR ")
     inner_notebook.add(sub_tab_merged,   text="  2. Merged SNR ")
 
-    # --- CONSTRUCTION DE LA PARTIE AMANI (ORDRE LOGIQUE) ---
+    # --- CONSTRUCTION DE LA PARTIE Separate SNR (ORDRE LOGIQUE) ---
     inner_sep, _, scroll_fn = scrollable_frame(sub_tab_separate)
 
     # ==========================================================
-    # ÉTAPE 1 : ÉTAT INITIAL (t-SNE AVANT)
+    # ÉTAPE 1 : ÉTAT INITIAL (t-SNE AVANT) ameni
     # ==========================================================
     section_label(inner_sep, "1. État Initial : Complexité des Données Brutes", "#022b55")
     tsne_image_block(inner_sep, "tsne_dl_avant", 
@@ -661,9 +664,28 @@ def build_tab_dl(parent):
     # ÉTAPE 4 : ANALYSE DES ERREURS (MATRICE DE CONFUSION)
     # ==========================================================
     divider(inner_sep)
-    section_label(inner_sep, "4. Analyse Fine : Matrice de Confusion (Expert 30dB)", "#022b55")
-    tsne_image_block(inner_sep, "dl_confusion", 
-                     "Validation : Identification parfaite des types (98%) et défis sur les modes intra-marques.", scroll_fn)
+    section_label(inner_sep, "4. Analyse des Matrices de Confusion", "#022b55")
+
+    section_label(inner_sep, "4.1 Analyse Fine : Matrice de Confusion (Expert 30dB)", "#022b55")
+    tsne_image_block(inner_sep, "dl_confusion1", 
+                     "Validation : Identification parfaite des types (98%) et défis sur les modes intra-marques (77.82%).", scroll_fn)
+    
+
+    section_label(inner_sep, "4.2 Analyse Fine : Matrice de Confusion (Expert 10dB)", "#022b55")
+    tsne_image_block(inner_sep, "dl_confusion2", 
+                     "Validation : Performance de 79.67%.", scroll_fn)
+    
+
+    section_label(inner_sep, "4.3 Analyse Fine : Matrice de Confusion (Expert 0dB)", "#022b55")
+    tsne_image_block(inner_sep, "dl_confusion3", 
+                     "Validation : Performance de 73.69%.", scroll_fn)
+    
+
+    section_label(inner_sep, "4.4 Analyse Fine : Matrice de Confusion (Expert -10dB)", "#022b55")
+    tsne_image_block(inner_sep, "dl_confusion4", 
+                     "Validation : Performance de 71%.", scroll_fn)
+    
+
 
     # ==========================================================
     # ÉTAPE 5 : VALIDATION FINALE (t-SNE POST-TRAINING)
@@ -759,20 +781,320 @@ def build_tab_dl(parent):
 
 
 # ============================================
-# TAB 5 — ML vs DL (placeholder)
+# TAB 5 — ML vs DL (Comparaison finale)
 # ============================================
 def build_tab_mlvsdl(parent):
-    inner, _, _ = scrollable_frame(parent)
-    tk.Label(inner, text="ML vs Apprentissage Profond — Comparaison finale",
-             font=("Arial", 16, "bold"), bg="#f5f5f5", fg="#8e44ad"
-             ).pack(pady=30)
-    tk.Label(inner,
-             text="Cet onglet affichera l'analyse comparative finale\n"
-                  "entre le pipeline ML et l'approche CNN\n"
-                  "dès que tous les résultats DL seront disponibles.",
-             font=("Arial", 11), bg="#e8daef", fg="#4a235a",
-             padx=20, pady=20, justify="center"
-             ).pack(padx=40)
+    inner, _, scroll_fn = scrollable_frame(parent)
+
+    # ── Titre ──────────────────────────────────────────────────────────────
+    section_label(inner, "ML vs DL — Comparaison Finale (Exp. B · 10 classes)",
+                  "#8e44ad", size=13)
+
+    # ── Récupération des données ───────────────────────────────────────────
+    acc_rf_b  = get_acc(rf_mode)
+    acc_knn_b = get_acc(knn_mode)
+    acc_xgb_b = get_acc(xgb_mode)
+    best_ml   = max(acc_rf_b, acc_knn_b, acc_xgb_b)
+
+    summary   = dl_data.get("global_summary", [])
+    acc_10    = next((item["Accuracy (%)"] for item in summary if item["SNR (dB)"] == 10),  0)
+    acc_30    = next((item["Accuracy (%)"] for item in summary if item["SNR (dB)"] == 30),  0)
+    acc_0     = next((item["Accuracy (%)"] for item in summary if item["SNR (dB)"] == 0),   0)
+    acc_m10   = next((item["Accuracy (%)"] for item in summary if item["SNR (dB)"] == -10), 0)
+    best_dl   = acc_10  # meilleur score DL retenu
+
+    gain      = best_dl - best_ml
+
+    # ── Cartes synthèse ───────────────────────────────────────────────────
+    stat_cards(inner, [
+        ("Meilleur ML (RF · 10 classes)",   f"{best_ml:.1f}%",  "#d35400"),
+        ("Meilleur DL (Expert 10dB)",        f"{best_dl:.2f}%",  "#8e44ad"),
+        ("Gain DL sur ML",                   f"+{gain:.1f}%",    "#1a936f"),
+        ("Classes communes",                 "10",               "#2c3e50"),
+    ])
+    divider(inner)
+
+    # ══════════════════════════════════════════════════════════════════════
+    # 1. GRAPHIQUE COMPARATIF CÔTE À CÔTE — tous les modèles
+    # ══════════════════════════════════════════════════════════════════════
+    section_label(inner, "1. Comparaison des Précisions — Tous les Modèles", "#8e44ad")
+
+    fig, ax = plt.subplots(figsize=(11, 4))
+    fig.patch.set_facecolor("#f5f5f5")
+    ax.set_facecolor("#f5f5f5")
+
+    models_ml = ["RF", "KNN", "XGBoost"]
+    accs_ml   = [acc_rf_b, acc_knn_b, acc_xgb_b]
+
+    models_dl = ["CNN 30dB", "CNN 10dB ★", "CNN 0dB", "CNN -10dB"]
+    accs_dl   = [acc_30, acc_10, acc_0, acc_m10]
+
+    all_labels = models_ml + [""] + models_dl          # séparateur vide
+    all_values = accs_ml   + [0]  + accs_dl
+    all_colors = (
+        ["#d35400", "#c0392b", "#e67e22"]              # ML : oranges
+        + ["#f5f5f5"]                                  # séparateur invisible
+        + ["#6c3483", "#8e44ad", "#a569bd", "#d2b4de"] # DL : violets
+    )
+
+    y_pos = list(range(len(all_labels)))
+    bars  = ax.barh(y_pos, all_values, color=all_colors, height=0.55)
+
+    # Étiquettes valeurs
+    for i, (bar, val) in enumerate(zip(bars, all_values)):
+        if val > 0:
+            ax.text(val + 0.4, bar.get_y() + bar.get_height() / 2,
+                    f"{val:.1f}%", va='center', fontsize=9, fontweight='bold',
+                    color="#2c3e50")
+
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(all_labels, fontsize=9)
+    ax.set_xlim(0, 115)
+    ax.set_xlabel("Précision (%)", fontsize=9)
+    ax.set_title("ML (Exp. B · 10 classes)  vs  CNN Expert par SNR", fontsize=10,
+                 fontweight='bold', pad=10)
+    ax.axhline(y=3.5, color="#aaa", linewidth=1, linestyle="--")   # ligne séparatrice ML/DL
+    ax.text(1, 3.6, "── ML ──────────────  DL ──────────────",
+            fontsize=7, color="#888", va='bottom')
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    fig.tight_layout()
+
+    fr_chart = tk.Frame(inner, bg="#f5f5f5")
+    fr_chart.pack(fill=tk.X, padx=20)
+    embed_matplotlib(fig, fr_chart)
+    divider(inner)
+
+    # ══════════════════════════════════════════════════════════════════════
+    # 2. TABLEAU RÉCAPITULATIF
+    # ══════════════════════════════════════════════════════════════════════
+    section_label(inner, "2. Tableau Récapitulatif", "#8e44ad")
+
+    tbl_frame = tk.Frame(inner, bg="#f5f5f5")
+    tbl_frame.pack(fill=tk.X, padx=20, pady=6)
+
+    headers = ["Modèle", "Approche", "Classes", "Précision (%)", "Avantage"]
+    widths  = [18, 10, 10, 16, 28]
+    h_colors = ["#2c3e50", "#8e44ad", "#2c3e50", "#1a936f", "#2c3e50"]
+
+    for col, (h, w, c) in enumerate(zip(headers, widths, h_colors)):
+        lbl = tk.Label(tbl_frame, text=h, font=("Courier New", 9, "bold"),
+                       bg=c, fg="white", width=w, relief="flat", padx=4, pady=5)
+        lbl.grid(row=0, column=col, padx=1, pady=1)
+        lbl.bind("<MouseWheel>", scroll_fn)
+
+    rows_data = [
+        ("Forêt Aléatoire",  "ML", "10", f"{acc_rf_b:.1f}",  "Rapide · interprétable"),
+        ("KNN (k=5)",        "ML", "10", f"{acc_knn_b:.1f}", "Simple · non-paramétrique"),
+        ("XGBoost",          "ML", "10", f"{acc_xgb_b:.1f}", "Boosting gradient"),
+        ("CNN Expert 30dB",  "DL", "10", f"{acc_30:.2f}",   "Signal propre"),
+        ("CNN Expert 10dB ★","DL", "10", f"{acc_10:.2f}",   "Meilleur score global"),
+        ("CNN Expert 0dB",   "DL", "10", f"{acc_0:.2f}",    "Signal bruité"),
+        ("CNN Expert -10dB", "DL", "10", f"{acc_m10:.2f}",  "Signal très dégradé"),
+    ]
+
+    for r_idx, row in enumerate(rows_data, 1):
+        bg_row = "#ffffff" if r_idx % 2 == 0 else "#ecf0f1"
+        is_dl  = row[1] == "DL"
+        for c_idx, (val, w) in enumerate(zip(row, widths)):
+            fg = "#8e44ad" if is_dl and c_idx == 3 else "#d35400" if not is_dl and c_idx == 3 else "#2c3e50"
+            font = ("Courier New", 9, "bold") if c_idx == 3 else ("Courier New", 9)
+            lbl = tk.Label(tbl_frame, text=val, font=font,
+                           bg=bg_row, fg=fg, width=w, padx=4, pady=4)
+            lbl.grid(row=r_idx, column=c_idx, padx=1, pady=1)
+            lbl.bind("<MouseWheel>", scroll_fn)
+
+    divider(inner)
+
+    # ══════════════════════════════════════════════════════════════════════
+    # 3. t-SNE CÔTE À CÔTE — avant entraînement vs post DL
+    # ══════════════════════════════════════════════════════════════════════
+    section_label(inner, "3. Visualisation t-SNE — Avant vs Après (DL)", "#8e44ad")
+
+    tsne_row = tk.Frame(inner, bg="#f5f5f5")
+    tsne_row.pack(fill=tk.X, padx=20, pady=6)
+
+    for key, cap in [
+        ("tsne_avant_mode",
+         "Avant entraînement · Exp. B (10 classes) — données ML brutes"),
+        ("dl_tsne_post",
+         "Après entraînement CNN · Espace latent séparé sémantiquement"),
+    ]:
+        col = tk.Frame(tsne_row, bg="#f5f5f5")
+        col.pack(side=tk.LEFT, expand=True, fill=tk.BOTH, padx=6)
+        try:
+            W = min(700, max(300, (root.winfo_width() - 100) // 2))
+            img_raw = Image.open(PATHS[key])
+            H = int(W * img_raw.height / img_raw.width)
+            photo = ImageTk.PhotoImage(img_raw.resize((W, H), Image.LANCZOS))
+            lbl = tk.Label(col, image=photo, bg="#f5f5f5")
+            lbl.image = photo
+            lbl.pack()
+            lbl.bind("<MouseWheel>", scroll_fn)
+        except:
+            tk.Label(col, text=f"[{key}]", bg="#ffe0e0", fg="red").pack()
+        tk.Label(col, text=cap, font=("Arial", 8, "italic"),
+                 bg="#f5f5f5", fg="#666").pack(pady=2)
+
+    divider(inner)
+
+    # ══════════════════════════════════════════════════════════════════════
+    # 4. MATRICES DE CONFUSION CÔTE À CÔTE — RF (meilleur ML) vs CNN 10dB
+    # ══════════════════════════════════════════════════════════════════════
+    section_label(inner, "4. Matrices de Confusion — RF (ML) vs CNN Expert 10dB (DL)", "#8e44ad")
+
+    cm_row = tk.Frame(inner, bg="#f5f5f5")
+    cm_row.pack(fill=tk.X, padx=20, pady=6)
+
+    # Matrice RF
+    col_rf = tk.Frame(cm_row, bg="#f5f5f5")
+    col_rf.pack(side=tk.LEFT, expand=True, fill=tk.BOTH, padx=6)
+    tk.Label(col_rf, text=f"Forêt Aléatoire · Exp. B — {acc_rf_b:.1f}%",
+             font=("Arial", 9, "bold"), bg="#f5f5f5", fg="#d35400").pack(pady=(0, 4))
+    labels_b = rf_mode.get("target_names", [])
+    fig_rf = confusion_matrix_figure(
+        rf_mode.get("confusion_matrix", []), labels_b,
+        "RF — Type + Mode (10 classes)")
+    embed_matplotlib(fig_rf, col_rf)
+
+    # Matrice DL 10dB (image statique depuis dashboard si JSON manque)
+    col_dl = tk.Frame(cm_row, bg="#f5f5f5")
+    col_dl.pack(side=tk.LEFT, expand=True, fill=tk.BOTH, padx=6)
+    tk.Label(col_dl, text=f"CNN Expert 10dB — {acc_10:.2f}%",
+             font=("Arial", 9, "bold"), bg="#f5f5f5", fg="#8e44ad").pack(pady=(0, 4))
+
+
+
+
+
+
+
+
+    # --- Affichage direct de la Matrice Expert 10dB (PNG) ---
+    try:
+        # Calcul de la largeur pour que l'image soit responsive
+        W = min(600, max(280, (root.winfo_width() - 100) // 2))
+        
+        # Chargement direct depuis le dictionnaire PATHS
+        img_raw = Image.open(PATHS["dl_confusion2"])
+        
+        # Redimensionnement proportionnel
+        ratio = img_raw.height / img_raw.width
+        H = int(W * ratio)
+        photo = ImageTk.PhotoImage(img_raw.resize((W, H), Image.LANCZOS))
+        
+        # Création et affichage du widget image
+        lbl = tk.Label(col_dl, image=photo, bg="#f5f5f5")
+        lbl.image = photo  # Garder la référence pour éviter que Python ne supprime l'image
+        lbl.pack(pady=10)
+        lbl.bind("<MouseWheel>", scroll_fn)
+        
+        # Label de titre de la matrice
+        tk.Label(col_dl, text="Matrice de Confusion — Expert 10dB", 
+                 font=("Arial", 9, "bold"), bg="#f5f5f5", fg="#1a1a2e").pack()
+
+    except Exception as e:
+        # Affichage d'une erreur propre si le fichier est introuvable
+        tk.Label(col_dl, text=f"[Erreur chargement Matrice 10dB]\n{e}",
+                 bg="#ffe0e0", fg="red", padx=10, pady=20).pack()
+
+
+
+
+
+
+
+
+
+
+
+    # ══════════════════════════════════════════════════════════════════════
+    # 5. DASHBOARD DL — vue complète
+    # ══════════════════════════════════════════════════════════════════════
+    section_label(inner, "5. Dashboard DL — Synthèse Complète par SNR", "#8e44ad")
+    tsne_image_block(inner, "dl_dashboard",
+                     "Dashboard CNN : précision par SNR, courbe de résilience au bruit et métriques globales.",
+                     scroll_fn)
+    divider(inner)
+
+    # ══════════════════════════════════════════════════════════════════════
+    # 6. GRAPHIQUE RADAR — profil de performance ML vs DL
+    # ══════════════════════════════════════════════════════════════════════
+    section_label(inner, "6. Profil de Performance — Radar ML vs DL", "#8e44ad")
+
+    categories  = ["Précision\n(signal propre)", "Résilience\nbruit", "Complexité\n(inv.)",
+                   "Vitesse\ninférence (inv.)", "Interprétabilité"]
+    # ML : RF normalisé /100
+    ml_scores   = [acc_rf_b / 100 * 10,   3,  7, 9, 8]
+    # DL : normalisé sur les 4 experts
+    dl_avg_noise = (acc_0 + acc_m10) / 2
+    dl_scores   = [acc_30 / 100 * 10,  dl_avg_noise / 100 * 10,  4, 5, 3]
+
+    N = len(categories)
+    angles = [n / float(N) * 2 * np.pi for n in range(N)]
+    angles += angles[:1]
+
+    fig_radar, ax_r = plt.subplots(figsize=(5.5, 5.5), subplot_kw=dict(polar=True))
+    fig_radar.patch.set_facecolor("#f5f5f5")
+    ax_r.set_facecolor("#f5f5f5")
+
+    ml_vals = ml_scores + ml_scores[:1]
+    dl_vals = dl_scores + dl_scores[:1]
+
+    ax_r.plot(angles, ml_vals, 'o-', linewidth=2, color="#d35400", label="ML (RF)")
+    ax_r.fill(angles, ml_vals, alpha=0.15, color="#d35400")
+    ax_r.plot(angles, dl_vals, 'o-', linewidth=2, color="#8e44ad", label="DL (CNN)")
+    ax_r.fill(angles, dl_vals, alpha=0.15, color="#8e44ad")
+
+    ax_r.set_xticks(angles[:-1])
+    ax_r.set_xticklabels(categories, fontsize=8)
+    ax_r.set_ylim(0, 10)
+    ax_r.set_yticks([2, 4, 6, 8, 10])
+    ax_r.set_yticklabels(["2", "4", "6", "8", "10"], fontsize=7, color="#aaa")
+    ax_r.set_title("Profil comparatif ML vs DL", fontsize=10,
+                   fontweight='bold', pad=20)
+    ax_r.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1), fontsize=9)
+    fig_radar.tight_layout()
+
+    fr_radar = tk.Frame(inner, bg="#f5f5f5")
+    fr_radar.pack(pady=4)
+    embed_matplotlib(fig_radar, fr_radar)
+    divider(inner)
+
+    # ══════════════════════════════════════════════════════════════════════
+    # 7. CONCLUSION
+    # ══════════════════════════════════════════════════════════════════════
+    section_label(inner, "7. Conclusion & Recommandations", "#8e44ad")
+
+    concl_frame = tk.Frame(inner, bg="#f5f5f5")
+    concl_frame.pack(fill=tk.X, padx=20, pady=8)
+
+    conclusions = [
+        ("#d4edda", "#155724", "✅  Précision",
+         f"Le CNN Expert 10dB atteint {acc_10:.2f}% vs {acc_rf_b:.1f}% pour le meilleur modèle ML (RF).\n"
+         f"Gain net de +{gain:.1f} points de pourcentage sur les 10 classes."),
+        ("#d1ecf1", "#0c5460", "🔊  Résilience au bruit",
+         f"Le CNN reste opérationnel à SNR = 0dB ({acc_0:.2f}%) et même -10dB ({acc_m10:.2f}%).\n"
+         "Les modèles ML (descripteurs scalaires) dégradent fortement dès que le SNR baisse."),
+        ("#e2d9f3", "#4a235a", "🧠  Représentation",
+         "Le CNN apprend directement sur spectrogrammes 2D, capturant les structures\n"
+         "temps-fréquence invisibles aux descripteurs scalaires ML."),
+        ("#fff3cd", "#856404", "⚠  Compromis",
+         "Les modèles ML restent pertinents pour des contraintes matérielles fortes\n"
+         "(faible mémoire, besoin d'interprétabilité, inférence temps réel embarqué)."),
+    ]
+
+    for bg, fg, titre, texte in conclusions:
+        box = tk.Frame(concl_frame, bg=bg, padx=14, pady=10)
+        box.pack(fill=tk.X, pady=4)
+        tk.Label(box, text=titre, font=("Arial", 10, "bold"),
+                 bg=bg, fg=fg).pack(anchor="w")
+        lbl = tk.Label(box, text=texte, font=("Arial", 9),
+                       bg=bg, fg=fg, justify="left")
+        lbl.pack(anchor="w")
+        lbl.bind("<MouseWheel>", scroll_fn)
+
+    tk.Label(inner, text="", bg="#f5f5f5").pack(pady=20)
 
 # ============================================
 # MAIN WINDOW
@@ -808,11 +1130,11 @@ tab_comp = tk.Frame(notebook, bg="#f5f5f5")
 tab_dl   = tk.Frame(notebook, bg="#f5f5f5")
 tab_vs   = tk.Frame(notebook, bg="#f5f5f5")
 
-notebook.add(tab_a,    text="  Exp. A — Type seulement  ")
-notebook.add(tab_b,    text="  Exp. B — Type + Mode  ")
-notebook.add(tab_comp, text="  Comparaison ML  ")
-notebook.add(tab_dl,   text="  Apprentissage Profond  ")
-notebook.add(tab_vs,   text="  ML vs DL  ")
+notebook.add(tab_a,    text="  ML — Exp. A — Type seulement  ")
+notebook.add(tab_b,    text="  ML — Exp. B — Type + Mode  ")
+notebook.add(tab_comp, text="  Comparaison Exp. A et Exp. B ML  ")
+notebook.add(tab_dl,   text="  Approche Deep Learning  ")
+notebook.add(tab_vs,   text="  Comparaison ML vs DL  ")
 
 # Wait for window to render before building tabs (needed for responsive images)
 root.update()
